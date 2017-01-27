@@ -1,0 +1,70 @@
+###
+###
+###
+### Category1 : 
+### Category2 : 
+### Category3 : 
+### Description : 
+###
+###
+###
+-- UPDATE 01_PRIORIDADE
+update movimentos
+	set plano = "PESSOAL"
+	WHERE plano = "01_PRIORIDADE";
+	
+-- UPDATE P.SAUDE_RODRIGO
+update movimentos
+	set conta = "P.SAUDE"
+	WHERE conta = "P.SAUDE_RODRIGO";
+	
+-- LISTAR CONTAS POR CATEGORIAS
+SELECT DISTINCT movimentos.CONTA, movimentos.REGISTRO_CATEGORIA
+FROM movimentos
+ORDER BY movimentos.REGISTRO_CATEGORIA,movimentos.conta;
+
+-- CRIAR DESPESAS ESSENCIAIS
+INSERT INTO movimentos (movimentos.REGISTRO_CATEGORIA,movimentos.CONTA) 
+(
+SELECT DISTINCT "ESSENCIAL", movimentos.CONTA
+FROM movimentos
+WHERE movimentos.REGISTRO_CATEGORIA = "MOVIMENTO"
+ORDER BY movimentos.conta);
+
+-- SELEÇÃO DE DESPESAS ESSENCIAIS
+DELETE FROM movimentos 
+WHERE 
+movimentos.REGISTRO_CATEGORIA = "ESSENCIAL"
+AND 
+movimentos.CONTA NOT IN 
+('APARTAMENTO','CONDOMINIO','LUZ','MERCADO','TV','LINK WEB (10 MB)','2373-7625 NET','T.ESCOLAR','P.SAUDE','P.ODONTO','MAXICONTA','NETFLIX','REVENDA PLESK I','PROVISÃO','TRANSPORTE','PIC','PROVISÃO');
+
+-- LISTAR DESPESAS ESSENCIAIS
+SELECT DISTINCT movimentos.REGISTRO_CATEGORIA, movimentos.conta
+FROM movimentos
+WHERE movimentos.REGISTRO_CATEGORIA = "ESSENCIAL"
+ORDER BY movimentos.REGISTRO_CATEGORIA,movimentos.conta;
+
+-- EXCLUIR CATEGORIAS
+DELETE
+FROM movimentos
+WHERE movimentos.REGISTRO_CATEGORIA IN ('tmp','PCONTAS');
+
+-- CONTAR CATEGORIAS
+SELECT 
+(SELECT count(*) 
+FROM movimentos
+WHERE movimentos.REGISTRO_CATEGORIA = "MOVIMENTO"
+ORDER BY movimentos.REGISTRO_CATEGORIA,movimentos.conta) AS MOVIMENTO
+,
+(SELECT count(*) 
+FROM movimentos
+WHERE movimentos.REGISTRO_CATEGORIA = "ESSENCIAL"
+ORDER BY movimentos.REGISTRO_CATEGORIA,movimentos.conta) AS ESSENCIAL
+,
+(SELECT count(*) 
+FROM movimentos
+WHERE movimentos.REGISTRO_CATEGORIA = "PCONTAS"
+ORDER BY movimentos.REGISTRO_CATEGORIA,movimentos.conta) AS PCONTAS
+;
+

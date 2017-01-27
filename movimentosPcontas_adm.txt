@@ -1,0 +1,26 @@
+###
+###
+###
+### Category1 : 
+### Category2 : 
+### Category3 : 
+### Description : 
+###
+###
+###
+SELECT 
+	distinct Plano,grupo, conta
+	FROM movimentos
+	WHERE movimentos.REGISTRO_CATEGORIA = 'PCONTAS'
+	ORDER BY grupo,conta;
+
+UPDATE movimentos
+	SET movimentos.Plano = 'ESSENCIAL'
+	WHERE 
+		movimentos.REGISTRO_CATEGORIA = 'PCONTAS' AND movimentos.Grupo in ('SAUDE','WEB','TARIFAS','NET','MORADIA','ALIMENTAÇÃO');
+		
+UPDATE movimentos
+	SET movimentos.Plano = 'DISPENSAVEL'
+	WHERE 
+		movimentos.REGISTRO_CATEGORIA = 'PCONTAS' AND movimentos.Plano is null;
+

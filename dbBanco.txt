@@ -1,0 +1,109 @@
+###
+###
+###
+### Category1 : 
+### Category2 : 
+### Category3 : 
+### Description : 
+###
+###
+###
+SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
+SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
+SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL';
+
+CREATE SCHEMA IF NOT EXISTS `mydb` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci ;
+USE `mydb` ;
+
+-- -----------------------------------------------------
+-- Table `mydb`.`Cadastros`
+-- -----------------------------------------------------
+CREATE  TABLE IF NOT EXISTS `mydb`.`Cadastros` (
+  `idCadastro` INT NOT NULL AUTO_INCREMENT ,
+  `idRelacao` INT NULL ,
+  `TipoCadastro` VARCHAR(15) NULL ,
+  `TipoDeInscricao` VARCHAR(1) NULL ,
+  `Nome` VARCHAR(45) NULL ,
+  `Endereco` VARCHAR(45) NULL ,
+  `Complemento` VARCHAR(45) NULL ,
+  `Bairro` VARCHAR(45) NULL ,
+  `Municipio` VARCHAR(45) NULL ,
+  `Estado` VARCHAR(2) NULL ,
+  `CEP` VARCHAR(8) NULL ,
+  `CNPJ_CPF` VARCHAR(45) NULL ,
+  `IE_RG` VARCHAR(45) NULL ,
+  `Ativo` TINYINT(1) NULL ,
+  `OBS` TEXT NULL ,
+  `ExclusaoVirtual` TINYINT(1) NULL ,
+  PRIMARY KEY (`idCadastro`) )
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `mydb`.`admCategorias`
+-- -----------------------------------------------------
+CREATE  TABLE IF NOT EXISTS `mydb`.`admCategorias` (
+  `idCategoria` INT NOT NULL AUTO_INCREMENT ,
+  `idRelacao` INT NULL ,
+  `Categoria` VARCHAR(45) NULL ,
+  `Descricao01` VARCHAR(45) NULL ,
+  `Descricao02` VARCHAR(45) NULL ,
+  `Atual` INT NULL ,
+  `Proximo` INT NULL ,
+  `ExclusaoVirtual` TINYINT(1) NULL ,
+  PRIMARY KEY (`idCategoria`) )
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `mydb`.`Movimentos`
+-- -----------------------------------------------------
+CREATE  TABLE IF NOT EXISTS `mydb`.`Movimentos` (
+  `idMovimento` INT NOT NULL AUTO_INCREMENT ,
+  `idRelacao` INT NULL ,
+  `TipoMovimento` VARCHAR(45) NULL ,
+  `Etapa` VARCHAR(45) NULL ,
+  `Status` VARCHAR(45) NULL ,
+  `Nome` VARCHAR(45) NULL ,
+  `Descricao` VARCHAR(45) NULL ,
+  `DataDeEmissao` DATETIME NULL ,
+  `DataDeVencimento` DATETIME NULL ,
+  `DataDePagamento` DATETIME NULL ,
+  `ValorOriginal` DECIMAL(10,2) NULL ,
+  `ValorFinal` DECIMAL(10,2) NULL ,
+  `Categoria` VARCHAR(45) NULL ,
+  `Definicao` VARCHAR(45) NULL ,
+  `FormaDePagamento` VARCHAR(45) NULL ,
+  `Controle` VARCHAR(45) NULL ,
+  PRIMARY KEY (`idMovimento`) )
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `mydb`.`OrdensDeServicos`
+-- -----------------------------------------------------
+CREATE  TABLE IF NOT EXISTS `mydb`.`OrdensDeServicos` (
+  `idOrdensDeServico` INT NOT NULL AUTO_INCREMENT ,
+  `idRelacao` INT NULL ,
+  `TipoRegistro` VARCHAR(45) NULL ,
+  `DataInicio` DATETIME NULL ,
+  `DataTerminio` DATETIME NULL ,
+  `Descricao01` VARCHAR(45) NULL ,
+  `Descricao02` VARCHAR(45) NULL ,
+  `Descricao03` VARCHAR(45) NULL ,
+  `Descricao04` VARCHAR(45) NULL ,
+  `Descricao05` VARCHAR(45) NULL ,
+  `Descricao06` VARCHAR(45) NULL ,
+  `Status` VARCHAR(45) NULL ,
+  `ValorOriginal` DECIMAL(10,2) NULL ,
+  `Desconto` DECIMAL(10,2) NULL ,
+  `OBS` TEXT NULL ,
+  PRIMARY KEY (`idOrdensDeServico`) )
+ENGINE = InnoDB;
+
+
+
+SET SQL_MODE=@OLD_SQL_MODE;
+SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
+SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
+

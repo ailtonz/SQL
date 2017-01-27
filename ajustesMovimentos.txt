@@ -1,0 +1,33 @@
+###
+###
+###
+### Category1 : 
+### Category2 : 
+### Category3 : 
+### Description : 
+###
+###
+###
+update movimentos
+	set
+		plano = 'PROFISSIONAL'
+		where conta in ('SPRINGER','MILLENNIUM');
+
+update movimentos
+	set
+		conta = 'LANCHES/LAZER'
+		where conta in ('LANCHE','LANCHES','LAZER');
+
+update movimentos
+	set
+		grupo = 'CLIENTE'
+		where conta in ('TRIANON','MARIA ANGELA','ALPHA SERVER','bertini madeiras','br tecnology','caio','claudete','dario machado','carmelita','elisa','falcon mosaics','jaime souza','jet class','kawai','lukarmona','miguel amador','millennium','renata panteleiciuc','renato portella','retec','springer','tereza','uzo','wagner');
+		
+SELECT DISTINCT movimentos.Plano
+	,movimentos.Grupo
+	,movimentos.Conta
+FROM movimentos
+ORDER BY movimentos.Plano
+	,movimentos.Grupo
+	,movimentos.Conta;		
+

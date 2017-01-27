@@ -1,0 +1,41 @@
+###
+###
+###
+### Category1 : 
+### Category2 : 
+### Category3 : 
+### Description : 
+###
+###
+###
+update movimentos
+	set	
+		conta = 'TAR MAXICONTA'
+	where conta = 'TAR MAXICONTA MENS';
+
+SELECT conta,datadevencimento,valororiginal,datadepagamento,valorfinal,movimento,transacao,plano,frequencia,grupo,datadeemissao
+FROM movimentos
+WHERE conta = 'IOF';
+
+insert into movimentos 
+	(conta,datadevencimento,valororiginal,datadepagamento,valorfinal,movimento,transacao,plano,frequencia,grupo,datadeemissao)
+	values
+	('TAR DOC INTERNET','16/06/2014','7.40','16/06/2014','-7.40','DESPESA','DEBITO','PESSOAL','VARIAVEL','BANCO',now())
+	,('TAR COBRANCA MENSAL','12/05/2014','11.19','12/05/2014','-11.19','DESPESA','DEBITO','PESSOAL','VARIAVEL','BANCO',now())
+	,('TAR COBRANCA MENSAL','10/06/2014','7.46','10/06/2014','-7.46','DESPESA','DEBITO','PESSOAL','VARIAVEL','BANCO',now())
+	;	
+
+SELECT conta,datadevencimento,valororiginal,datadepagamento,valorfinal,transacao,movimento,plano,frequencia,grupo,datadeemissao
+FROM movimentos
+WHERE conta = 'PIC';
+
+	
+SELECT conta,datadevencimento,valororiginal,datadepagamento,valorfinal,movimento,transacao,plano,frequencia,grupo,datadeemissao
+FROM movimentos
+WHERE movimento = 'RECEITA';	
+	
+	
+update movimentos
+	set	conta = 'TAR MAXICONTA MENS'
+	where conta = 'MAXICONTA';
+

@@ -1,0 +1,51 @@
+###
+###
+###
+### Category1 : 
+### Category2 : 
+### Category3 : 
+### Description : 
+###
+###
+###
+DELIMITER //
+
+CREATE VIEW vw_transportador AS
+
+select 
+	cadastros.ID AS ID,
+	cadastros.FK AS FK,
+
+	cadastros.CADASTRO_TIPO AS CadastroTipo,
+	cadastros.CNPJ_CPF AS CnpjCpf,
+	cadastros.IE_RG AS IeRg,
+	
+	cadastros.NOME AS Nome,
+	cadastros.NOME_FANTASIA AS NomeFantasia,
+	cadastros.CADASTRO_OBSERVACAO AS CadastroObservacao,
+	cadastros.CADASTRO_STATUS AS CadastroStatus,
+	cadastros.CADASTRO_PROPAGANDA AS CadastroPropaganda,
+	cadastros.CONTRATO_VALOR AS Salario,
+		
+	cadastros.CEP AS EnderecoCep,
+	cadastros.NUMERO AS EnderecoNumero,
+	cadastros.COMPLEMENTO AS EnderecoComplemento,
+	cadastros.ENDERECO AS EnderecoLogradouro,
+	cadastros.BAIRRO AS EnderecoBairro,
+	cadastros.CIDADE AS EnderecoCidade,
+	cadastros.ESTADO AS EnderecoEstado,
+
+	cadastros.CONTATO AS ContatoNome,
+	cadastros.TELEFONE AS ContatoTelefone,
+	cadastros.EMAIL AS ContatoEmail
+	
+from 
+	cadastros 
+where
+	cadastros.REGISTRO_CATEGORIA = "ADM_TRANSPORTADOR" 
+order by 
+	cadastros.ID desc;
+
+//
+DELIMITER ;
+

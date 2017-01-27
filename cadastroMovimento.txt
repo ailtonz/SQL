@@ -1,0 +1,46 @@
+###
+###
+###
+### Category1 : 
+### Category2 : 
+### Category3 : 
+### Description : 
+###
+###
+###
+USE kawaifilms3;
+GO
+CREATE PROCEDURE cadastroMovimento
+    @Documento nvarchar(50), 
+    @Observacao nvarchar(50) 
+AS 
+
+BEGIN 
+     SET NOCOUNT ON 
+
+  INSERT INTO dbo.Movimento
+          ( 
+			codigoConta					,
+			ValorOriginal				,
+			dataVencimento				,
+			dataEmissao					,
+			codigoPagamento				,
+			codigoMovimento				,
+            Documento                   ,
+            Observacao                  
+          ) 
+     VALUES 
+          ( 
+			1						,
+			1						,
+			GETDATE()				,
+			GETDATE()				,
+			1							,
+			1							,
+            @Documento                  ,
+            @Observacao                            
+          ) 
+
+END 
+GO
+

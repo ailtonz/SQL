@@ -1,0 +1,24 @@
+###
+###
+###
+### Category1 : 
+### Category2 : 
+### Category3 : 
+### Description : 
+###
+###
+###
+SELECT ALL DataDeEmissao
+	,CONTA
+	,DataDeVencimento
+	,ValorOriginal
+	,DataDePagamento
+	,ValorFinal
+	,Observacao
+FROM vw_movimentos
+WHERE 
+	ano IN ('2014') 
+	and movimento IN ('despesa') 
+	and conta IN ('luz') 	
+ORDER BY DataDeVencimento,conta;
+

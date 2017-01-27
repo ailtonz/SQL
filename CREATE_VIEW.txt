@@ -1,0 +1,733 @@
+###
+###
+###
+### Category1 : 
+### Category2 : 
+### Category3 : 
+### Description : 
+###
+###
+###
+use `dbhigia_141106-1843`;
+
+DELIMITER //
+
+DROP VIEW IF EXISTS vw_matriz;
+
+CREATE VIEW vw_matriz AS
+
+SELECT adm_matriz.ID
+	,adm_matriz.FK
+	,adm_matriz.frm
+	,adm_matriz.prc
+	,adm_matriz.qry
+	,adm_matriz.Cat
+	,adm_matriz.Title	
+FROM adm_matriz;
+
+ 	
+//	
+DELIMITER ;
+
+DELIMITER //
+
+DROP VIEW IF EXISTS vw_historicos;
+
+CREATE VIEW vw_historicos AS
+
+select 
+	cadastros.ID AS ID,
+	cadastros.FK AS FK,
+	cadastros.CADASTRO_OBSERVACAO AS HISTORICO,
+	cadastros.COBRANCA_INSCRICAO AS COBRANCA_INSCRICAO
+	
+from 
+	cadastros 
+where 
+	(cadastros.REGISTRO_CATEGORIA = _utf8'CLIENTE_HISTORICO') order by cadastros.ID desc 
+
+ 	
+//	
+DELIMITER ;
+
+DELIMITER //
+
+DROP VIEW IF EXISTS vw_propagandas;
+
+CREATE VIEW vw_propagandas AS
+
+select 
+	cadastros.ID AS ID,
+	cadastros.FK AS FK,
+	cadastros.CADASTRO_PROPAGANDA AS Titulo,
+	cadastros.CADASTRO_OBSERVACAO AS Descricao
+	
+from 
+	cadastros 
+where 
+	(cadastros.REGISTRO_CATEGORIA = _utf8'UTEIS_PROPAGANDA') order by cadastros.ID desc 
+
+ 	
+//	
+DELIMITER ;
+
+DELIMITER //
+
+DROP VIEW IF EXISTS vw_materiais;
+
+CREATE VIEW vw_materiais AS
+
+SELECT cadastros.ID AS ID
+	,cadastros.FK AS FK
+	,cadastros.CADASTRO_PROPAGANDA AS Titulo
+	,cadastros.CADASTRO_OBSERVACAO AS Descricao
+FROM cadastros
+WHERE (cadastros.REGISTRO_CATEGORIA = _utf8 'UTEIS_MATERIAL')
+ORDER BY cadastros.NOME
+ 	
+//	
+DELIMITER ;
+
+DELIMITER //
+
+DROP VIEW IF EXISTS vw_links;
+
+CREATE VIEW vw_links AS
+
+select 
+	cadastros.ID AS ID,
+	cadastros.FK AS FK,
+	cadastros.CADASTRO_PROPAGANDA AS Titulo,
+	cadastros.CADASTRO_OBSERVACAO AS Descricao
+	
+from 
+	cadastros 
+where 
+	(cadastros.REGISTRO_CATEGORIA = _utf8'UTEIS_LINKS') order by cadastros.id DESC 
+
+ 	
+//	
+DELIMITER ;
+
+DELIMITER //
+
+DROP VIEW IF EXISTS vw_veiculos;
+
+CREATE VIEW vw_veiculos AS
+
+select 
+	cadastros.ID AS ID,
+	cadastros.FK AS FK,
+	cadastros.CADASTRO_PROPAGANDA AS Titulo,
+	cadastros.CADASTRO_OBSERVACAO AS Descricao	
+from 
+	cadastros 
+where 
+	(cadastros.REGISTRO_CATEGORIA = _utf8'VEICULO') order by cadastros.id DESC 
+
+ 	
+//	
+DELIMITER ;
+
+DELIMITER //
+
+DROP VIEW IF EXISTS vw_cargos;
+
+CREATE VIEW vw_cargos AS
+
+select 
+	cadastros.ID AS ID,
+	cadastros.FK AS FK,
+	cadastros.CADASTRO_PROPAGANDA AS Titulo,
+	cadastros.CADASTRO_OBSERVACAO AS Descricao
+	
+from 
+	cadastros 
+where 
+	(cadastros.REGISTRO_CATEGORIA = _utf8'FUNCIONARIO_CARGO') order by cadastros.CADASTRO_PROPAGANDA
+
+ 	
+//	
+DELIMITER ;
+
+DELIMITER //
+
+DROP VIEW IF EXISTS vw_ctrl_perfil;
+
+CREATE VIEW vw_ctrl_perfil AS
+
+select 
+	cadastros.ID AS ID,
+	cadastros.FK AS FK,
+	cadastros.CADASTRO_PROPAGANDA AS Titulo,
+	cadastros.CADASTRO_OBSERVACAO AS Descricao
+	
+from 
+	cadastros 
+where 
+	(cadastros.REGISTRO_CATEGORIA = _utf8'CTRL_PERFIL') order by cadastros.CADASTRO_PROPAGANDA 
+
+ 	
+//	
+DELIMITER ;
+
+DELIMITER //
+
+DROP VIEW IF EXISTS vw_ctrl_usuarios;
+
+CREATE VIEW vw_ctrl_usuarios AS
+
+select 
+	cadastros.ID AS ID,
+	cadastros.FK AS FK,
+	cadastros.CADASTRO_PROPAGANDA AS Titulo,
+	cadastros.CADASTRO_OBSERVACAO AS Descricao
+	
+from 
+	cadastros 
+where 
+	(cadastros.REGISTRO_CATEGORIA = _utf8'CTRL_USUARIO') order by cadastros.CADASTRO_PROPAGANDA 
+
+ 	
+//	
+DELIMITER ;
+
+DELIMITER //
+
+DROP VIEW IF EXISTS vw_ctrl_cadastros;
+
+CREATE VIEW vw_ctrl_cadastros AS
+
+select 
+	cadastros.ID AS ID,
+	cadastros.FK AS FK,
+	cadastros.CADASTRO_PROPAGANDA AS Titulo,
+	cadastros.CADASTRO_OBSERVACAO AS Descricao
+	
+from 
+	cadastros 
+where 
+	(cadastros.REGISTRO_CATEGORIA = _utf8'CTRL_CADASTROS') order by cadastros.CADASTRO_PROPAGANDA 
+
+ 	
+//	
+DELIMITER ;
+
+DELIMITER //
+
+DROP VIEW IF EXISTS vw_clientes;
+
+CREATE VIEW vw_clientes AS
+
+select 
+	cadastros.ID AS ID,
+	cadastros.FK AS FK,
+
+	cadastros.CNPJ_CPF AS CNPJ_CPF,
+	cadastros.IE_RG AS IE_RG,
+	
+	cadastros.NOME AS CLIENTE,
+	cadastros.NOME_FANTASIA AS NOME_FANTASIA,
+	
+	cadastros.CEP AS CEP,
+	cadastros.NUMERO AS NUMERO,
+	cadastros.COMPLEMENTO AS COMPLEMENTO,
+	cadastros.ENDERECO AS ENDERECO,
+	cadastros.BAIRRO AS BAIRRO,
+	cadastros.CIDADE AS CIDADE,
+	cadastros.ESTADO AS ESTADO,
+
+	cadastros.CADASTRO_TIPO AS CADASTRO_TIPO,
+	cadastros.CADASTRO_PROPAGANDA,	
+	cadastros.CADASTRO_STATUS,
+	cadastros.CADASTRO_STATUS_OBSERVACAO,
+
+	cadastros.CONTATO AS CONTATO,
+	cadastros.TELEFONE AS TELEFONE,
+	cadastros.EMAIL AS EMAIL
+	
+
+from 
+	cadastros 
+where
+	cadastros.REGISTRO_CATEGORIA = "CLIENTE" 
+order by 
+	cadastros.ID desc 
+
+//	
+DELIMITER ;
+
+DELIMITER //
+
+DROP VIEW IF EXISTS vw_transportador;
+
+CREATE VIEW vw_transportador AS
+
+select 
+	cadastros.ID AS ID,
+	cadastros.FK AS FK,
+
+	cadastros.CADASTRO_TIPO AS CadastroTipo,
+	cadastros.CNPJ_CPF AS CnpjCpf,
+	cadastros.IE_RG AS IeRg,
+	
+	cadastros.NOME AS Nome,
+	cadastros.NOME_FANTASIA AS NomeFantasia,
+	cadastros.CADASTRO_OBSERVACAO AS CadastroObservacao,
+	cadastros.CADASTRO_STATUS AS CadastroStatus,
+	cadastros.CADASTRO_PROPAGANDA AS CadastroPropaganda,
+	cadastros.CONTRATO_VALOR AS Salario,
+		
+	cadastros.CEP AS EnderecoCep,
+	cadastros.NUMERO AS EnderecoNumero,
+	cadastros.COMPLEMENTO AS EnderecoComplemento,
+	cadastros.ENDERECO AS EnderecoLogradouro,
+	cadastros.BAIRRO AS EnderecoBairro,
+	cadastros.CIDADE AS EnderecoCidade,
+	cadastros.ESTADO AS EnderecoEstado,
+
+	cadastros.CONTATO AS ContatoNome,
+	cadastros.TELEFONE AS ContatoTelefone,
+	cadastros.EMAIL AS ContatoEmail
+	
+from 
+	cadastros 
+where
+	cadastros.REGISTRO_CATEGORIA = "ADM_TRANSPORTADOR" 
+order by 
+	cadastros.ID desc;
+
+//
+DELIMITER ;
+
+DELIMITER //
+
+DROP VIEW IF EXISTS vw_funcionarios;
+
+CREATE VIEW vw_funcionarios AS
+
+select 
+	cadastros.ID AS ID,
+	cadastros.FK AS FK,
+
+	cadastros.CADASTRO_TIPO AS CadastroTipo,
+	cadastros.CNPJ_CPF AS CnpjCpf,
+	cadastros.IE_RG AS IeRg,
+	
+	cadastros.NOME AS Nome,
+	cadastros.NOME_FANTASIA AS NomeFantasia,
+	cadastros.CADASTRO_OBSERVACAO AS CadastroObservacao,
+	cadastros.CADASTRO_STATUS AS CadastroStatus,
+	cadastros.CADASTRO_PROPAGANDA AS CadastroPropaganda,
+	cadastros.CONTRATO_VALOR AS Salario,
+		
+	cadastros.CEP AS EnderecoCep,
+	cadastros.NUMERO AS EnderecoNumero,
+	cadastros.COMPLEMENTO AS EnderecoComplemento,
+	cadastros.ENDERECO AS EnderecoLogradouro,
+	cadastros.BAIRRO AS EnderecoBairro,
+	cadastros.CIDADE AS EnderecoCidade,
+	cadastros.ESTADO AS EnderecoEstado,
+
+	cadastros.CONTATO AS ContatoNome,
+	cadastros.TELEFONE AS ContatoTelefone,
+	cadastros.EMAIL AS ContatoEmail
+	
+from 
+	cadastros 
+where
+	cadastros.REGISTRO_CATEGORIA = "FUNCIONARIO" 
+order by 
+	cadastros.ID desc;
+
+//
+DELIMITER ;
+
+DELIMITER //
+
+DROP VIEW IF EXISTS vw_aterros;
+
+CREATE VIEW vw_aterros AS
+
+select 
+	cadastros.ID AS ID,
+	cadastros.FK AS FK,
+
+	cadastros.CADASTRO_TIPO AS CadastroTipo,
+	cadastros.CNPJ_CPF AS CnpjCpf,
+	cadastros.IE_RG AS IeRg,
+	
+	cadastros.NOME AS Nome,
+	cadastros.NOME_FANTASIA AS NomeFantasia,
+	cadastros.CADASTRO_PROPAGANDA AS CadastroPropaganda,
+	cadastros.CADASTRO_OBSERVACAO AS CadastroObservacao,
+	cadastros.CADASTRO_STATUS AS CadastroStatus,
+	
+	cadastros.CEP AS EnderecoCep,
+	cadastros.NUMERO AS EnderecoNumero,
+	cadastros.COMPLEMENTO AS EnderecoComplemento,
+	cadastros.ENDERECO AS EnderecoLogradouro,
+	cadastros.BAIRRO AS EnderecoBairro,
+	cadastros.CIDADE AS EnderecoCidade,
+	cadastros.ESTADO AS EnderecoEstado,
+
+	cadastros.CONTATO AS ContatoNome,
+	cadastros.TELEFONE AS ContatoTelefone,
+	cadastros.EMAIL AS ContatoEmail
+	
+from 
+	cadastros 
+where
+	cadastros.REGISTRO_CATEGORIA = "ATERRO" 
+order by 
+	cadastros.ID desc;
+//
+
+DELIMITER ;
+
+DELIMITER //
+
+DROP VIEW IF EXISTS vw_obras;
+
+CREATE VIEW vw_obras AS
+
+select 
+	cadastros.ID AS ID,
+	cadastros.FK AS FK,
+	
+	cadastros.CEP AS EnderecoCep,
+	cadastros.NUMERO AS EnderecoNumero,
+	cadastros.COMPLEMENTO AS EnderecoComplemento,
+	cadastros.ENDERECO AS EnderecoLogradouro,
+	cadastros.BAIRRO AS EnderecoBairro,
+	cadastros.CIDADE AS EnderecoCidade,
+	cadastros.ESTADO AS EnderecoEstado,
+
+	cadastros.CONTATO AS ContatoNome,
+	cadastros.TELEFONE AS ContatoTelefone,
+	cadastros.EMAIL AS ContatoEmail,
+	
+	cadastros.CADASTRO_TIPO AS COBRANCA_TIPO,	
+	cadastros.COBRANCA_INSCRICAO AS COBRANCA_INSCRICAO,
+	cadastros.COBRANCA_SACADO AS COBRANCA_SACADO,
+	cadastros.COBRANCA_LOGRADOURO AS COBRANCA_LOGRADOURO,
+	cadastros.COBRANCA_BAIRRO AS COBRANCA_BAIRRO,
+	cadastros.COBRANCA_CEP AS COBRANCA_CEP,
+	cadastros.COBRANCA_CIDADE AS COBRANCA_CIDADE,
+	cadastros.COBRANCA_ESTADO AS COBRANCA_ESTADO,
+	cadastros.COBRANCA_CONTATO AS COBRANCA_CONTATO,
+	cadastros.COBRANCA_TELEFONE AS COBRANCA_TELEFONE,
+	cadastros.COBRANCA_EMAIL AS COBRANCA_EMAIL,
+
+	cadastros.CONTRATO_INICIO AS CONTRATO_INICIO,
+	cadastros.CONTRATO_TERMINIO AS CONTRATO_TERMINIO,
+	cadastros.CONTRATO_VALOR AS CONTRATO_VALOR,
+	cadastros.CONTRATO_NF AS CONTRATO_NF,
+	cadastros.CONTRATO_ISS AS CONTRATO_ISS,
+	cadastros.CONTRATO_CTR AS CONTRATO_CTR,
+	
+	cadastros.CONTRATO_PERIODO_LOCACAO AS CONTRATO_PERIODO_LOCACAO,
+	cadastros.CONTRATO_FORMA_PAGAMENTO AS CONTRATO_FORMA_PAGAMENTO,
+	cadastros.CONTRATO_FATURAMENTO_DIAS AS CONTRATO_FATURAMENTO_DIAS,
+	cadastros.CONTRATO_RETIRADA_AUTOMATICA AS CONTRATO_RETIRADA_AUTOMATICA,
+	cadastros.CONTRATO_VCTO_APOS_ENTREGA AS CONTRATO_VCTO_APOS_ENTREGA,
+	cadastros.CONTRATO_MULTA_MORA AS CONTRATO_MULTA_MORA,
+	cadastros.CONTRATO_MULTA_DIA AS CONTRATO_MULTA_DIA,
+
+	cadastros.CADASTRO_OBSERVACAO AS CONTRATO_OBSERVACAO,
+	
+	cadastros.CONTRATO_OBS_COLOCA AS CONTRATO_OBS_COLOCA,
+	cadastros.CONTRATO_OBS_TROCA AS CONTRATO_OBS_TROCA,
+	cadastros.CONTRATO_OBS_RETIRA AS CONTRATO_OBS_RETIRA,	
+	cadastros.CONTRATO_OBS_LIGACAO AS CONTRATO_OBS_LIGACAO	
+
+from 
+	cadastros 
+where
+	cadastros.REGISTRO_CATEGORIA = "CLIENTE_OBRA" 
+order by 
+	cadastros.ID desc 
+	
+//	
+DELIMITER ;
+
+DELIMITER //
+
+DROP VIEW IF EXISTS vw_cep;
+
+CREATE VIEW vw_cep AS
+
+SELECT 
+	cadastros.id AS ID
+	,cadastros.FK AS FK
+	,cadastros.CEP AS EnderecoCep
+	,cadastros.NUMERO AS EnderecoNumero
+	,cadastros.COMPLEMENTO AS EnderecoComplemento
+	,cadastros.ENDERECO AS EnderecoLogradouro
+	,cadastros.BAIRRO AS EnderecoBairro
+	,cadastros.CIDADE AS EnderecoCidade
+	,cadastros.ESTADO AS EnderecoEstado
+	,cadastros.CONTRATO_VALOR AS VALOR
+FROM cadastros
+WHERE (cadastros.REGISTRO_CATEGORIA = _utf8 'UTEIS_CEP')
+ORDER BY cadastros.id DESC 
+
+ 	
+//	
+DELIMITER ;
+
+DELIMITER //
+
+DROP VIEW IF EXISTS vw_contatos;
+
+CREATE VIEW vw_contatos AS
+
+select 
+	cadastros.ID AS ID,
+	cadastros.FK AS FK,
+	cadastros.CONTATO AS CONTATO,
+	cadastros.TELEFONE AS TELEFONE,
+	cadastros.EMAIL AS EMAIL,
+	cadastros.CADASTRO_OBSERVACAO AS OBSERVACAO
+
+from 
+	cadastros 
+where 
+	(cadastros.REGISTRO_CATEGORIA = _utf8'CONTATO_CLIENTE') order by cadastros.ID desc 	
+//	
+DELIMITER ;
+
+DELIMITER //
+
+DROP VIEW IF EXISTS vw_receitas;
+
+CREATE VIEW vw_receitas AS
+
+SELECT movimentos.id AS id
+	,movimentos.fk AS fk
+	,movimentos.Movimento AS MOVIMENTO
+	,movimentos.Grupo AS GRUPO
+	,movimentos.Conta AS CONTA
+	,movimentos.DataDeEmissao AS DataDeEmissao
+	,movimentos.DataDeVencimento AS DataDeVencimento
+	,movimentos.ValorOriginal AS ValorOriginal
+	,movimentos.DataDePagamento AS DataDePagamento
+	,movimentos.ValorFinal AS ValorFinal
+	,movimentos.Transacao AS Transacao
+	,movimentos.Documento AS Documento
+	,movimentos.Observacao AS Observacao
+FROM movimentos
+WHERE (movimentos.REGISTRO_CATEGORIA = 'MOVIMENTO') AND (movimentos.Movimento = 'RECEITA')
+ORDER BY movimentos.id DESC 
+
+ 	
+//	
+DELIMITER ;
+
+DELIMITER //
+
+DROP VIEW IF EXISTS vw_despesas;
+
+CREATE VIEW vw_despesas AS
+
+SELECT movimentos.ID AS id
+	,movimentos.fk AS fk
+	,movimentos.Movimento AS MOVIMENTO
+	,movimentos.Grupo AS GRUPO
+	,movimentos.Conta AS CONTA
+	,movimentos.DataDeEmissao AS DataDeEmissao
+	,movimentos.DataDeVencimento AS DataDeVencimento
+	,- movimentos.ValorOriginal AS ValorOriginal
+	,movimentos.DataDePagamento AS DataDePagamento
+	,- movimentos.ValorFinal AS ValorFinal
+	,movimentos.Transacao AS Transacao
+	,movimentos.Documento AS Documento
+	,movimentos.Observacao AS Observacao
+FROM movimentos
+WHERE (movimentos.REGISTRO_CATEGORIA = 'MOVIMENTO') AND (movimentos.Movimento = 'DESPESA')
+ORDER BY movimentos.id DESC 
+
+ 	
+//	
+DELIMITER ;
+
+DELIMITER //
+
+DROP VIEW IF EXISTS vw_movimentos;
+
+CREATE VIEW vw_movimentos AS
+
+SELECT * from vw_despesas
+union
+SELECT * from vw_receitas;
+
+ 	
+//	
+DELIMITER ;
+
+DELIMITER //
+
+DROP VIEW IF EXISTS vw_condicoes;
+
+CREATE VIEW vw_condicoes AS
+
+SELECT 
+	movimentos.ID AS ID,
+	movimentos.FK AS FK,
+	movimentos.Transacao AS Titulo,
+	movimentos.Frequencia AS Descricao	
+FROM 
+	movimentos 
+WHERE 
+	(movimentos.REGISTRO_CATEGORIA = _utf8'MOV_CONDICAO') 
+ORDER BY CAST(movimentos.Frequencia AS signed) 
+
+ 	
+//	
+DELIMITER ;
+
+DELIMITER //
+
+DROP VIEW IF EXISTS vw_transacoes;
+
+CREATE VIEW vw_transacoes AS
+
+SELECT 
+	movimentos.ID AS ID,
+	movimentos.FK AS FK,
+	movimentos.Transacao AS Titulo,
+	movimentos.Frequencia AS Descricao	
+FROM 
+	movimentos 
+WHERE 
+	(movimentos.REGISTRO_CATEGORIA = _utf8'MOV_TRANSACAO') 
+ORDER BY CAST(movimentos.Frequencia AS signed)  
+
+ 	
+//	
+DELIMITER ;
+
+DELIMITER //
+
+DROP VIEW IF EXISTS vw_pcontas;
+
+CREATE VIEW vw_pcontas AS
+
+SELECT 
+	movimentos.ID AS ID
+	,movimentos.FK AS FK
+	,movimentos.Transacao AS Titulo
+	,movimentos.Controle AS Descricao
+FROM movimentos
+WHERE (movimentos.REGISTRO_CATEGORIA = 'PCONTA')
+ORDER BY movimentos.Transacao
+	,movimentos.Controle  
+
+ 	
+//	
+DELIMITER ;
+
+DELIMITER //
+
+DROP VIEW IF EXISTS vw_observacoes;
+
+CREATE VIEW vw_observacoes AS
+
+SELECT cadastros.id AS ID
+	,cadastros.CADASTRO_STATUS_OBSERVACAO AS OBSERVACAO
+	,cadastros.CADASTRO_STATUS AS SERVICO
+FROM cadastros
+WHERE (cadastros.REGISTRO_CATEGORIA = _utf8 'UTEIS_STATUS')
+ORDER BY cadastros.id DESC 
+
+ 	
+//	
+DELIMITER ;
+
+DELIMITER //
+
+DROP VIEW IF EXISTS vw_etapas;
+
+CREATE VIEW vw_etapas AS
+
+SELECT servicos.ID AS ID
+	,servicos.SERVICO_STATUS AS STATUS
+FROM servicos
+WHERE (servicos.REGISTRO_CATEGORIA = _utf8 'STATUS_LIGACAO')
+ORDER BY servicos.SERVICO_STATUS 
+
+ 	
+//	
+DELIMITER ;
+
+DELIMITER //
+
+DROP VIEW IF EXISTS vw_precificacao;
+
+CREATE VIEW vw_precificacao AS
+
+SELECT cadastros.id AS ID
+	,cadastros.CONTRATO_OBSERVACAO AS DESCRICAO
+FROM cadastros
+WHERE (cadastros.REGISTRO_CATEGORIA = _utf8 'UTEIS_PRECO')
+ORDER BY cadastros.CONTRATO_OBSERVACAO 
+
+ 	
+//	
+DELIMITER ;
+
+DELIMITER //
+
+DROP VIEW IF EXISTS vw_status;
+
+CREATE VIEW vw_status AS
+
+SELECT servicos.ID AS ID
+	,servicos.SERVICO_STATUS AS STATUS
+FROM servicos
+WHERE (servicos.REGISTRO_CATEGORIA = _utf8 'STATUS_SERVICO')
+ORDER BY servicos.ID DESC 
+
+ 	
+//	
+DELIMITER ;
+
+DELIMITER //
+
+DROP VIEW IF EXISTS vw_telefones;
+
+CREATE VIEW vw_telefones AS
+
+SELECT cadastros.ID AS ID
+	,cadastros.FK AS FK
+	,cadastros.NOME AS DESCRICAO
+	,cadastros.TELEFONE AS TELEFONE
+	,cadastros.EMAIL AS EMAIL
+	,cadastros.CONTATO AS CONTATO
+	,cadastros.CADASTRO_OBSERVACAO AS OBSERVACAO
+FROM cadastros
+WHERE (cadastros.REGISTRO_CATEGORIA = _utf8 'UTEIS_TELEFONE')
+ORDER BY cadastros.NOME 
+
+ 	
+//	
+DELIMITER ;
+
+DELIMITER //
+
+DROP VIEW IF EXISTS vw_tipos;
+
+CREATE VIEW vw_tipos AS
+
+SELECT cadastros.ID AS ID
+	,cadastros.FK AS FK
+	,cadastros.CADASTRO_PROPAGANDA AS Titulo
+	,cadastros.CADASTRO_OBSERVACAO AS Descricao
+FROM cadastros
+WHERE (cadastros.REGISTRO_CATEGORIA = _utf8 'UTEIS_TIPO_CADASTRO')
+ORDER BY cadastros.id DESC 
+
+ 	
+//	
+DELIMITER ;
+

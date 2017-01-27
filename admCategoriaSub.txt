@@ -1,0 +1,34 @@
+###
+###
+###
+### Category1 : 
+### Category2 : 
+### Category3 : 
+### Description : 
+###
+###
+###
+DELIMITER //
+
+CREATE PROCEDURE admCategoriaSub(IN NM_CATEGORIA VARCHAR(100), IN NM_SUBCATEGORIA VARCHAR(100), IN NM_SELECAO VARCHAR(2000))
+	LANGUAGE SQL
+	NOT DETERMINISTIC
+	CONTAINS SQL
+	SQL SECURITY DEFINER
+	COMMENT ''
+BEGIN
+	INSERT INTO admCategorias ( codCategoria, codRelacao, Categoria, Descricao01 )
+	
+	SELECT 
+		(IF(IsNull(NOVO_CONTROLE), 1, NOVO_CONTROLE)) AS controle
+		,(SELECT admCategorias.codCategoria FROM admCategorias Where Categoria = NM_CATEGORIA ) AS CATEGORIA
+		,UCase(NM_SUBCATEGORIA) AS DESCRICAO
+		,NM_SELECAO AS SELECAO
+		
+	FROM 
+		admSubNumeroDeCategoriaNovo;
+
+END //
+
+DELIMITER ;
+

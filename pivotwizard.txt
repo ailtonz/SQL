@@ -1,0 +1,58 @@
+###
+###
+###
+### Category1 : 
+### Category2 : 
+### Category3 : 
+### Description : 
+###
+###
+###
+DELIMITER //
+
+CREATE PROCEDURE `pivotwizard`(IN P_Row_Field VARCHAR(255), IN P_Column_Field VARCHAR(255), IN P_Value VARCHAR(255),
+   IN P_From VARCHAR(4000), IN P_Where VARCHAR(4000))
+BEGIN
+   DECLARE done INT DEFAULT 0;
+   DECLARE M_Count_Columns int DEFAULT 0;
+   DECLARE M_Column_Field varchar(60);
+   DECLARE M_Columns VARCHAR(8000) DEFAULT '';
+   DECLARE M_sqltext VARCHAR(8000);
+   DECLARE M_stmt VARCHAR(8000);
+   DECLARE cur1 CURSOR FOR SELECT CAST(Column_Field AS CHAR) FROM temp_pivot;
+   DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = 1;
+   DROP TABLE IF EXISTS temp_pivot;
+   SET @M_sqltext = CONCAT('CREATE TEMPORARY TABLE temp_pivot ',
+                           ' SELECT DISTINCT ',P_Column_Field, ' AS Column_Field',
+                           ' FROM ',P_From,
+                           ' WHERE ',P_Where,
+                           ' ORDER BY ', P_Column_Field);
+   PREPARE M_stmt FROM @M_sqltext;
+   EXECUTE M_stmt;
+   SELECT COUNT(*) INTO M_Count_Columns
+   FROM temp_pivot
+   WHERE Column_Field IS NOT NULL;
+   IF (M_Count_Columns > 0) THEN
+      OPEN cur1;
+      REPEAT
+         FETCH cur1 INTO M_Column_Field;
+         IF (NOT done) and (M_Column_Field IS NOT NULL) THEN
+            SET M_Columns = CONCAT(M_Columns,
+                            ' SUM( CASE WHEN ',P_Column_Field,'=''',M_Column_Field,'''',
+                            ' THEN ',P_Value,
+                            ' ELSE 0 END) AS `', M_Column_Field ,'`,');
+         END IF;
+      UNTIL done END REPEAT;
+      SET M_Columns = Left(M_Columns,Length(M_Columns)-1);
+      SET @M_sqltext = CONCAT('SELECT ',P_Row_Field,',',M_Columns,
+                              ' FROM ', P_From,
+                              ' WHERE ', P_Where,
+                              ' GROUP BY ', P_Row_Field,
+                              ' ORDER BY ', P_Row_Field);
+      PREPARE M_stmt FROM @M_sqltext;
+      EXECUTE M_stmt;
+   END IF;
+END//
+
+DELIMITER ;
+

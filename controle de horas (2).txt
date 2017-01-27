@@ -1,0 +1,12 @@
+###
+###
+###
+### Category1 : 
+### Category2 : 
+### Category3 : 
+### Description : 
+###
+###
+###
+SELECT right(TIMEDIFF(Descricao01,Descricao02),LENGTH(TIMEDIFF(Descricao01,Descricao02))-1) as tmpValor, LENGTH(TIMEDIFF(Descricao01,Descricao02)) as tmpTamanho FROM f4consult.ordensdeservicos where idOrdensDeServico = 2;
+

@@ -1,0 +1,60 @@
+###
+###
+###
+### Category1 : 
+### Category2 : 
+### Category3 : 
+### Description : 
+###
+###
+###
+-- --------------------------------------------------------------------------------
+-- Routine DDL
+-- Note: comments before and after the routine body will not be stored by the server
+-- --------------------------------------------------------------------------------
+DELIMITER $$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_INSERT_CLIENTE`(
+        IN  p_Nome                          VARCHAR(45)    , 
+        IN  p_CEP                           VARCHAR(8)     , 
+        IN  p_Complemento                   VARCHAR(45)    , 
+        IN  p_CNPJ_CPF                      VARCHAR(45)    , 
+        IN  p_IE_RG                         VARCHAR(45)    #, 
+        #IN  p_TipoDeInscricao               VARCHAR(1)
+        
+     )
+BEGIN 
+    DECLARE v_TipoDeInscricao VARCHAR(1);
+
+    IF LEN(p_CNPJ_CPF) = 11 THEN
+        v_TipoDeInscricao = 'F';
+    ELSE
+        v_TipoDeInscricao = 'J';
+    END IF; 
+    
+    INSERT INTO cadastros
+         (
+            Nome                             , 
+            CEP                              , 
+            Complemento                      , 
+            CNPJ_CPF                         , 
+            IE_RG                            , 
+            TipoDeInscricao                  ,
+            TipoCadastro                     , 
+            Ativo                            ,
+            DataDeCadastro
+         )
+    VALUES 
+         ( 
+             p_Nome                               , 
+             p_CEP                                , 
+             p_Complemento                        , 
+             p_CNPJ_CPF                           , 
+             p_IE_RG                              , 
+             p_TipoDeInscricao                    ,
+             "CLIENTE"                            ,
+             true                                 ,
+             curdate()
+         ) ; 
+END
+

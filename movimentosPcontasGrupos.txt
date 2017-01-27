@@ -1,0 +1,21 @@
+###
+###
+###
+### Category1 : 
+### Category2 : 
+### Category3 : 
+### Description : 
+###
+###
+###
+SELECT DISTINCT movimentos.Grupo, movimentos.Conta
+FROM movimentos
+WHERE REGISTRO_CATEGORIA = 'PCONTAS'
+ORDER BY movimentos.Grupo, movimentos.Conta;
+
+
+SELECT DISTINCT movimentos.Grupo
+FROM movimentos
+WHERE REGISTRO_CATEGORIA = 'PCONTAS'
+ORDER BY movimentos.Grupo;
+

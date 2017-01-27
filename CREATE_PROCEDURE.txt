@@ -1,0 +1,720 @@
+###
+###
+###
+### Category1 : 
+### Category2 : 
+### Category3 : 
+### Description : 
+###
+###
+###
+use `dbhigia_141106-1843`;
+
+DELIMITER //
+
+DROP PROCEDURE IF EXISTS spCobranca;
+
+CREATE PROCEDURE spCobranca (
+	IN pID INT
+	,IN pFK INT	
+	,IN pCadastroCategoria VARCHAR(255)
+	
+	,IN pCobrancaTipo VARCHAR(2)
+	,IN pCobrancaInscricao VARCHAR(14)
+	,IN pCobrancaSacado VARCHAR(30)
+	
+	,IN pCobrancaCep VARCHAR(8)
+	,IN pCobrancaLogradouro VARCHAR(40)
+	,IN pCobrancaBairro VARCHAR(12)
+	,IN pCobrancaCidade VARCHAR(15)
+	,IN pCobrancaEstado VARCHAR(2)	
+
+	,IN pCobrancaContato VARCHAR(15)
+	,IN pCobrancaTelefone VARCHAR(50)
+	,IN pCobrancaEmail VARCHAR(120)		
+	)
+
+	LANGUAGE SQL
+	NOT DETERMINISTIC
+	CONTAINS SQL
+	SQL SECURITY DEFINER
+	COMMENT ''
+BEGIN
+
+IF pID = "0" THEN
+INSERT INTO cadastros (
+	cadastros.fk
+	,cadastros.REGISTRO_CATEGORIA
+	,cadastros.CADASTRO_TIPO
+	,cadastros.COBRANCA_INSCRICAO
+	,cadastros.COBRANCA_SACADO
+	,cadastros.COBRANCA_CEP
+	,cadastros.COBRANCA_LOGRADOURO
+	,cadastros.COBRANCA_BAIRRO
+	,cadastros.COBRANCA_CIDADE
+	,cadastros.COBRANCA_ESTADO
+	,cadastros.COBRANCA_CONTATO
+	,cadastros.COBRANCA_TELEFONE
+	,cadastros.COBRANCA_EMAIL
+	)
+VALUES (
+	pFK
+	,pCadastroCategoria
+	,trim(ucase(pCobrancaTipo))
+	,trim(pCobrancaInscricao)
+	,trim(ucase(pCobrancaSacado))
+	,trim(ucase(pCobrancaCep))
+	,trim(ucase(pCobrancaLogradouro))
+	,trim(ucase(pCobrancaBairro))
+	,trim(ucase(pCobrancaCidade))
+	,trim(ucase(pCobrancaEstado))
+	,trim(ucase(pCobrancaContato))
+	,trim(ucase(pCobrancaTelefone))
+	,trim(lcase(pCobrancaEmail))
+	);
+ELSEIF pID <> "0" THEN
+UPDATE cadastros
+SET cadastros.fk = pFK
+	,cadastros.REGISTRO_CATEGORIA = pCadastroCategoria
+	,cadastros.CADASTRO_TIPO = trim(ucase(pCobrancaTipo))
+	,cadastros.COBRANCA_INSCRICAO = trim(pCobrancaInscricao)
+	,cadastros.COBRANCA_SACADO = trim(ucase(pCobrancaSacado))
+	,cadastros.COBRANCA_CEP = trim(ucase(pCobrancaCep))
+	,cadastros.COBRANCA_LOGRADOURO = trim(ucase(pCobrancaLogradouro))
+	,cadastros.COBRANCA_BAIRRO = trim(ucase(pCobrancaBairro))
+	,cadastros.COBRANCA_CIDADE = trim(ucase(pCobrancaCidade))
+	,cadastros.COBRANCA_ESTADO = trim(ucase(pCobrancaEstado))
+	,cadastros.COBRANCA_CONTATO = trim(ucase(pCobrancaContato))
+	,cadastros.COBRANCA_TELEFONE = trim(ucase(pCobrancaTelefone))
+	,cadastros.COBRANCA_EMAIL = trim(lcase(pCobrancaEmail))
+WHERE cadastros.ID = pID;
+	
+END IF; 
+         
+END //
+
+DELIMITER ;
+
+DELIMITER //
+
+DROP PROCEDURE IF EXISTS spContatos;
+
+CREATE PROCEDURE spContatos (
+	IN pID INT
+	,IN pFK INT	
+	,IN pCadastroCategoria VARCHAR(255)
+	,IN pContatoNome VARCHAR(50)
+	,IN pContatoTelefone VARCHAR(50)
+	,IN pContatoEmail VARCHAR(120)	
+	)
+
+	LANGUAGE SQL
+	NOT DETERMINISTIC
+	CONTAINS SQL
+	SQL SECURITY DEFINER
+	COMMENT ''
+BEGIN
+
+IF pID = "0" THEN
+ INSERT INTO cadastros
+         (
+				cadastros.fk,
+				cadastros.REGISTRO_CATEGORIA,
+				cadastros.CONTATO,
+				cadastros.TELEFONE,
+				cadastros.EMAIL	
+         )
+    VALUES 
+         (
+				pFK,
+				pCadastroCategoria,
+				trim(ucase(pContatoNome)),
+				trim(ucase(pContatoTelefone)),
+				trim(lcase(pContatoEmail))				
+         );
+ELSEIF pID <> "0" THEN
+	IF pEnderecoCep <> "" THEN
+		UPDATE cadastros
+			SET 
+				cadastros.fk = pFK,
+				cadastros.REGISTRO_CATEGORIA = pCadastroCategoria,
+				cadastros.CONTATO = trim(ucase(pContatoNome)),
+				cadastros.TELEFONE = trim(ucase(pContatoTelefone)),
+				cadastros.EMAIL = trim(lcase(pContatoEmail))
+			WHERE cadastros.ID = pID;
+	ELSE
+		DELETE FROM cadastros WHERE ID = pID;
+	END IF;
+	
+END IF; 
+         
+END //
+
+DELIMITER ;
+
+DELIMITER //
+
+DROP PROCEDURE IF EXISTS spContratos;
+
+CREATE PROCEDURE spContratos (
+	IN pID INT
+	,IN pFK INT	
+	,IN pCadastroCategoria VARCHAR(255)
+	
+	,IN pContratoInicio VARCHAR(10)
+	,IN pContratoTerminio VARCHAR(10)
+	,IN pContratoNF VARCHAR(1)	
+	,IN pContratoISS VARCHAR(1)	
+	,IN pContratoCTR VARCHAR(1)	
+	,IN pContratoPeriodoLocacao VARCHAR(3)	
+	,IN pContratoTransacao VARCHAR(50)	
+	,IN pContratoCondicoes VARCHAR(50)	
+	,IN pContratoRetiradaAutomatica VARCHAR(3)	
+	,IN pContratoVctoAposEntrega VARCHAR(3)	
+	,IN pContratoValor VARCHAR(50)	
+	,IN pContratoMultaMora VARCHAR(50)	
+	,IN pContratoMultaDia VARCHAR(50)	
+	,IN pContratoObservacao VARCHAR(120)	
+	,IN pContratoObsColoca VARCHAR(120)	
+	,IN pContratoObsTroca VARCHAR(120)	
+	,IN pContratoObsRetira VARCHAR(120)	
+	,IN pContratoObsLigacao VARCHAR(120)	
+	)
+
+	LANGUAGE SQL
+	NOT DETERMINISTIC
+	CONTAINS SQL
+	SQL SECURITY DEFINER
+	COMMENT ''
+BEGIN
+
+IF pID = "0" THEN
+ INSERT INTO cadastros
+         (
+				cadastros.fk,
+				cadastros.REGISTRO_CATEGORIA,				
+				cadastros.CONTRATO_INICIO,
+				cadastros.CONTRATO_TERMINIO,
+				cadastros.CONTRATO_VALOR,
+				cadastros.CONTRATO_NF,
+				cadastros.CONTRATO_ISS,
+				cadastros.CONTRATO_CTR,
+				cadastros.CONTRATO_PERIODO_LOCACAO,
+				cadastros.CONTRATO_FORMA_PAGAMENTO,
+				cadastros.CONTRATO_FATURAMENTO_DIAS,
+				cadastros.CONTRATO_RETIRADA_AUTOMATICA,
+				cadastros.CONTRATO_VCTO_APOS_ENTREGA,
+				cadastros.CONTRATO_MULTA_MORA,
+				cadastros.CONTRATO_MULTA_DIA,
+				cadastros.CADASTRO_OBSERVACAO,
+				cadastros.CONTRATO_OBS_COLOCA,
+				cadastros.CONTRATO_OBS_TROCA,
+				cadastros.CONTRATO_OBS_RETIRA,
+				cadastros.CONTRATO_OBS_LIGACAO
+         )
+    VALUES 
+         (
+				pFK,
+				pCadastroCategoria,
+				pContratoInicio,
+				pContratoTerminio,
+				pContratoValor,
+				pContratoNF,
+				pContratoISS,
+				pContratoCTR,
+				pContratoPeriodoLocacao,
+				pContratoTransacao,
+				pContratoCondicoes,
+				pContratoRetiradaAutomatica,
+				pContratoVctoAposEntrega,
+				pContratoMultaMora,
+				pContratoMultaDia,
+				trim(ucase(pContratoObservacao)),
+				trim(ucase(pContratoObsColoca)),
+				trim(ucase(pContratoObsTroca)),
+				trim(ucase(pContratoObsRetira)),
+				trim(ucase(pContratoObsLigacao))				
+         );
+ELSEIF pID <> "0" THEN
+		UPDATE cadastros
+			SET 
+				cadastros.fk = pFK,
+				cadastros.REGISTRO_CATEGORIA = pCadastroCategoria,				
+				cadastros.CONTRATO_INICIO = pContratoInicio,
+				cadastros.CONTRATO_TERMINIO = pContratoTerminio,
+				cadastros.CONTRATO_VALOR = pContratoValor,
+				cadastros.CONTRATO_NF = pContratoNF,
+				cadastros.CONTRATO_ISS = pContratoISS,
+				cadastros.CONTRATO_CTR = pContratoCTR,
+				cadastros.CONTRATO_PERIODO_LOCACAO = pContratoPeriodoLocacao,
+				cadastros.CONTRATO_FORMA_PAGAMENTO = pContratoTransacao,
+				cadastros.CONTRATO_FATURAMENTO_DIAS = pContratoCondicoes,
+				cadastros.CONTRATO_RETIRADA_AUTOMATICA = pContratoRetiradaAutomatica,
+				cadastros.CONTRATO_VCTO_APOS_ENTREGA = pContratoVctoAposEntrega,
+				cadastros.CONTRATO_MULTA_MORA = pContratoMultaMora,
+				cadastros.CONTRATO_MULTA_DIA = pContratoMultaDia,
+				cadastros.CADASTRO_OBSERVACAO = trim(ucase(pContratoObservacao)),
+				cadastros.CONTRATO_OBS_COLOCA = trim(ucase(pContratoObsColoca)),
+				cadastros.CONTRATO_OBS_TROCA = trim(ucase(pContratoObsTroca)),
+				cadastros.CONTRATO_OBS_RETIRA = trim(ucase(pContratoObsRetira)),
+				cadastros.CONTRATO_OBS_LIGACAO = trim(ucase(pContratoObsLigacao))
+				
+			WHERE cadastros.ID = pID;	
+END IF; 
+         
+END //
+
+DELIMITER ;
+
+DELIMITER //
+
+DROP PROCEDURE IF EXISTS spEnderecos;
+
+CREATE PROCEDURE spEnderecos (
+	IN pID INT
+	,IN pFK INT	
+	,IN pCadastroCategoria VARCHAR(255)
+	,IN pEnderecoCep VARCHAR(8)
+	,IN pEnderecoNumero VARCHAR(10)
+	,IN pEnderecoComplemento VARCHAR(50)
+	,IN pEnderecoLogradouro VARCHAR(200)
+	,IN pEnderecoBairro VARCHAR(50)
+	,IN pEnderecoCidade VARCHAR(100)
+	,IN pEnderecoEstado VARCHAR(2)	
+	)
+
+	LANGUAGE SQL
+	NOT DETERMINISTIC
+	CONTAINS SQL
+	SQL SECURITY DEFINER
+	COMMENT ''
+BEGIN
+
+IF pID = "0" THEN
+ INSERT INTO cadastros
+         (
+				cadastros.fk,
+				cadastros.REGISTRO_CATEGORIA,
+				cadastros.CEP,
+				cadastros.NUMERO,
+				cadastros.COMPLEMENTO,
+				cadastros.ENDERECO, 
+				cadastros.BAIRRO,
+				cadastros.CIDADE,
+				cadastros.ESTADO			
+         )
+    VALUES 
+         (
+				pFK,
+				pCadastroCategoria,
+				trim(ucase(pEnderecoCep)),
+				trim(ucase(pEnderecoNumero)),
+				trim(ucase(pEnderecoComplemento)),
+				trim(ucase(pEnderecoLogradouro)),
+				trim(ucase(pEnderecoBairro)),
+				trim(ucase(pEnderecoCidade)),
+				trim(ucase(pEnderecoEstado))
+				
+         );
+ELSEIF pID <> "0" THEN
+	IF pEnderecoCep <> "" THEN
+		UPDATE cadastros
+			SET 
+				cadastros.fk = pFK,
+				cadastros.REGISTRO_CATEGORIA = pCadastroCategoria,
+				cadastros.CEP = trim(ucase(pEnderecoCep)),
+				cadastros.NUMERO = trim(ucase(pEnderecoNumero)),
+				cadastros.COMPLEMENTO = trim(ucase(pEnderecoComplemento)),
+				cadastros.ENDERECO = trim(ucase(pEnderecoLogradouro)),
+				cadastros.BAIRRO = trim(ucase(pEnderecoBairro)),
+				cadastros.CIDADE = trim(ucase(pEnderecoCidade)),
+				cadastros.ESTADO = trim(ucase(pEnderecoEstado))
+			WHERE cadastros.ID = pID;
+	ELSE
+		DELETE FROM cadastros WHERE ID = pID;
+	END IF;
+	
+END IF; 
+         
+END //
+
+DELIMITER ;
+
+DELIMITER //
+
+DROP PROCEDURE IF EXISTS spEntidades;
+
+CREATE PROCEDURE spEntidades (
+	IN pID INT
+	,IN pFK INT	
+	,IN pCadastroCategoria VARCHAR(255)
+	,IN pCadastroTipo VARCHAR(1000)
+	,IN pCnpjCpf VARCHAR(14)
+	,IN pIeRg VARCHAR(16)
+	,IN pNome VARCHAR(100)
+	,IN pNomeFantasia VARCHAR(50)
+	,IN pCadastroStatus VARCHAR(10)
+	,IN pCadastroPropaganda VARCHAR(50)
+	,IN pCadastroObservacao VARCHAR(1000)	
+	)
+
+	LANGUAGE SQL
+	NOT DETERMINISTIC
+	CONTAINS SQL
+	SQL SECURITY DEFINER
+	COMMENT ''
+BEGIN
+IF pID = "0" THEN
+INSERT INTO cadastros (
+	cadastros.fk
+	,cadastros.REGISTRO_CATEGORIA
+	,cadastros.CADASTRO_TIPO
+	,cadastros.CNPJ_CPF
+	,cadastros.IE_RG
+	,cadastros.NOME
+	,cadastros.NOME_FANTASIA
+	,cadastros.CADASTRO_STATUS
+	,cadastros.CADASTRO_PROPAGANDA
+	,cadastros.CADASTRO_OBSERVACAO
+	)
+VALUES (
+	pFK
+	,pCadastroCategoria
+	,trim(ucase(pCadastroTipo))
+	,trim(ucase(pCnpjCpf))
+	,trim(ucase(pIeRg))
+	,trim(ucase(pNome))
+	,trim(ucase(pNomeFantasia))
+	,trim(ucase(pCadastroStatus))
+	,trim(ucase(pCadastroPropaganda))
+	,trim(ucase(pCadastroObservacao))
+	);
+ELSEIF pID <> "0" THEN
+IF pNome <> "" THEN
+UPDATE cadastros
+SET cadastros.fk = pFK
+	,cadastros.REGISTRO_CATEGORIA = pCadastroCategoria
+	,cadastros.CADASTRO_TIPO = trim(ucase(pCadastroTipo))
+	,cadastros.CNPJ_CPF = trim(ucase(pCnpjCpf))
+	,cadastros.IE_RG = trim(ucase(pIeRg))
+	,cadastros.NOME = trim(ucase(pNome))
+	,cadastros.NOME_FANTASIA = trim(ucase(pNomeFantasia))
+	,cadastros.CADASTRO_STATUS = trim(ucase(pCadastroStatus))
+	,cadastros.CADASTRO_PROPAGANDA = trim(ucase(pCadastroPropaganda))
+	,cadastros.CADASTRO_OBSERVACAO = trim(ucase(pCadastroObservacao))
+WHERE cadastros.ID = pID;
+ELSE
+	DELETE FROM cadastros WHERE ID = pID;
+END IF;	
+END IF;         
+END //
+
+DELIMITER ;
+
+DELIMITER //
+
+DROP PROCEDURE IF EXISTS spFinancas;
+
+CREATE PROCEDURE spFinancas (
+	IN pID INT
+	,IN pFK INT	
+	,IN pCadastroCategoria VARCHAR(255)
+	,IN pTitulo VARCHAR(100)
+	,IN pDescricao VARCHAR(1000)
+	)
+
+	LANGUAGE SQL
+	NOT DETERMINISTIC
+	CONTAINS SQL
+	SQL SECURITY DEFINER
+	COMMENT ''
+BEGIN
+
+IF pID = "0" THEN
+ INSERT INTO movimentos
+         (
+				movimentos.fk,
+				movimentos.Transacao,
+				movimentos.Frequencia,
+				movimentos.REGISTRO_CATEGORIA
+         )
+    VALUES 
+         (
+				pFK,
+				trim(ucase(pTitulo)),
+				trim(ucase(pDescricao)),
+				pCadastroCategoria
+         );
+ELSEIF pID <> "0" THEN
+	IF pTitulo <> "" THEN
+		UPDATE movimentos
+			SET 
+				movimentos.Transacao = trim(ucase(pTitulo)),
+				movimentos.Frequencia = trim(ucase(pDescricao))
+			WHERE movimentos.ID = pID;
+	ELSE
+		DELETE FROM movimentos WHERE ID = pID;
+	END IF;
+	
+END IF; 
+         
+END //
+
+DELIMITER ;
+
+DELIMITER //
+
+DROP PROCEDURE IF EXISTS spMatriz;
+
+CREATE PROCEDURE spMatriz(IN pID INT
+	, IN pFK INT	
+	, IN pFrm VARCHAR(50)
+	, IN pPrc VARCHAR(50)
+	, IN pQry VARCHAR(50)
+	, IN pCat VARCHAR(50)
+	, IN pTitle VARCHAR(50)
+	)
+	LANGUAGE SQL
+	NOT DETERMINISTIC
+	CONTAINS SQL
+	SQL SECURITY DEFINER
+	COMMENT ''
+BEGIN
+IF pID = "0" THEN
+	INSERT INTO adm_Matriz (
+		adm_Matriz.fk
+		,adm_Matriz.Frm
+		,adm_Matriz.Prc
+		,adm_Matriz.Qry
+		,adm_Matriz.Cat
+		,adm_Matriz.Title
+		)
+	VALUES (
+		pFK
+		,trim(ucase(pFrm))
+		,trim(ucase(pPrc))
+		,trim(ucase(pQry))
+		,trim(ucase(pCat))
+		,trim(ucase(pTitle))
+		);
+ELSEIF pID <> "0" THEN
+	IF pFrm <> "" THEN
+		UPDATE adm_Matriz
+		SET adm_Matriz.fk = pFK
+			,adm_Matriz.Frm = trim(ucase(pFrm))
+			,adm_Matriz.Frm = trim(ucase(pPrc))
+			,adm_Matriz.Frm = trim(ucase(pQry))
+			,adm_Matriz.Frm = trim(ucase(pCat))
+			,adm_Matriz.Title = trim(ucase(pTitle))
+		WHERE adm_Matriz.ID = pID;
+	ELSE
+		DELETE FROM adm_Matriz WHERE ID = pID;
+	END IF;	
+END IF; 
+                 
+END //
+
+DELIMITER ;
+
+DELIMITER //
+
+DROP PROCEDURE IF EXISTS spMovimentos;
+
+CREATE PROCEDURE spMovimentos (
+	IN pID INT
+	,IN pFK INT	
+	,IN pCadastroCategoria VARCHAR(255)
+	
+	,IN pDataDeEmissao VARCHAR(10)
+	,IN pDocumento VARCHAR(50)
+	,IN pObservacao VARCHAR(100)	
+	,IN pDataDeVencimento VARCHAR(10)	
+	,IN pValorOriginal VARCHAR(50)	
+	,IN pDataDePagamento VARCHAR(10)	
+	,IN pValorFinal VARCHAR(50)	
+	,IN pMovimento VARCHAR(50)	
+	,IN pPlano VARCHAR(50)	
+	,IN pConta VARCHAR(50)	
+	,IN pTransacao VARCHAR(50)	
+	,IN pFrequencia VARCHAR(50)
+	)
+
+	LANGUAGE SQL
+	NOT DETERMINISTIC
+	CONTAINS SQL
+	SQL SECURITY DEFINER
+	COMMENT ''
+BEGIN
+
+DECLARE pCadastroCategoria	VARCHAR(50);
+
+SET pCadastroCategoria = 'MOVIMENTO';
+
+IF pID = "0" THEN
+INSERT INTO movimentos (
+	movimentos.fk
+	,movimentos.REGISTRO_CATEGORIA
+	
+	,movimentos.Movimento
+	,movimentos.DataDeEmissao
+	,movimentos.Documento
+	,movimentos.Observacao
+	,movimentos.DataDeVencimento
+	,movimentos.ValorOriginal
+	,movimentos.DataDePagamento
+	,movimentos.ValorFinal
+	,movimentos.Grupo
+	,movimentos.Conta
+	,movimentos.Transacao
+	,movimentos.Frequencia
+	)
+VALUES (
+	pFK
+	,pCadastroCategoria
+	
+	,trim(ucase(pMovimento))
+	,pDataDeEmissao
+	,trim(ucase(pDocumento))
+	,trim(ucase(pObservacao))
+	,pDataDeVencimento
+	,pValorOriginal
+	,pDataDePagamento
+	,pValorFinal
+	,trim(ucase(pGrupo))
+	,trim(ucase(pConta))
+	,trim(ucase(pTransacao))
+	,trim(ucase(pFrequencia))
+	);
+ELSEIF pID <> "0" THEN
+UPDATE movimentos
+SET movimentos.fk = pFK
+	,movimentos.REGISTRO_CATEGORIA = pCadastroCategoria
+	
+	,movimentos.DataDeEmissao = pDataDeEmissao
+	,movimentos.Documento = trim(ucase(pDocumento))
+	,movimentos.Observacao = trim(ucase(pObservacao))
+	,movimentos.DataDeVencimento = pDataDeVencimento
+	,movimentos.ValorOriginal = pValorOriginal
+	,movimentos.DataDePagamento = pDataDePagamento
+	,movimentos.ValorFinal = pValorFinal
+	,movimentos.Grupo = trim(ucase(pGrupo))
+	,movimentos.Conta = trim(ucase(pConta))
+	,movimentos.Transacao = trim(ucase(pTransacao))
+	,movimentos.Frequencia = trim(ucase(pFrequencia))
+
+WHERE movimentos.ID = pID;
+	
+END IF; 
+                 
+END //
+
+DELIMITER ;
+
+DELIMITER //
+
+DROP PROCEDURE IF EXISTS spNotas;
+
+CREATE PROCEDURE spNotas (
+	IN pID INT
+	,IN pFK INT	
+	,IN pCadastroCategoria VARCHAR(255)
+	,IN pTitulo VARCHAR(50)
+	,IN pDescricao VARCHAR(1000)
+	)
+
+	LANGUAGE SQL
+	NOT DETERMINISTIC
+	CONTAINS SQL
+	SQL SECURITY DEFINER
+	COMMENT ''
+BEGIN
+
+IF pID = "0" THEN
+ INSERT INTO cadastros
+         (
+				cadastros.fk,
+				cadastros.CADASTRO_PROPAGANDA,
+				cadastros.CADASTRO_OBSERVACAO,
+				cadastros.REGISTRO_CATEGORIA
+         )
+    VALUES 
+         (
+				pFK,
+				trim(ucase(pTitulo)),
+				trim(ucase(pDescricao)),
+				pCadastroCategoria
+         );
+ELSEIF pID <> "0" THEN
+	IF pNome <> "" THEN
+		UPDATE cadastros
+			SET 
+				cadastros.CADASTRO_PROPAGANDA = trim(ucase(pTitulo)),
+				cadastros.CADASTRO_OBSERVACAO = trim(ucase(pDescricao))
+			WHERE cadastros.ID = pID;
+	ELSE
+		DELETE FROM cadastros WHERE ID = pID;
+	END IF;
+	
+END IF; 
+         
+END //
+
+DELIMITER ;
+
+DELIMITER //
+
+DROP PROCEDURE IF EXISTS spServicos;
+
+CREATE PROCEDURE spServicos(IN pID INT
+	, IN pFK INT	
+	, IN pCadastroCategoria VARCHAR(255)
+	, IN pIdCadastro INT
+	, IN pIdObra INT
+	, IN pIdContrato INT
+	, IN pIdSolicitante INT
+	, IN pIdMaterial INT
+	)
+	LANGUAGE SQL
+	NOT DETERMINISTIC
+	CONTAINS SQL
+	SQL SECURITY DEFINER
+	COMMENT ''
+BEGIN
+
+IF pID = "0" THEN
+	INSERT INTO servicos (
+		servicos.fk
+		,servicos.ID_CADASTRO
+		,servicos.ID_OBRA
+		,servicos.ID_CONTRATO
+		,servicos.ID_SOLICITANTE
+		,servicos.ID_MATERIAL
+		,servicos.REGISTRO_CATEGORIA
+		)
+	VALUES (
+		pFK
+		,trim(ucase(pIdCadastro))
+		,trim(ucase(pIdObra))
+		,trim(ucase(pIdContrato))
+		,trim(ucase(pIdSolicitante))
+		,trim(ucase(pIdMaterial))
+		,pCadastroCategoria
+		);
+ELSEIF pID <> "0" THEN
+	IF pNome <> "" THEN
+		UPDATE servicos
+		SET servicos.ID_CADASTRO = trim(ucase(pIdCadastro))
+			,servicos.ID_OBRA = trim(ucase(pIdObra))
+			,servicos.ID_CONTRATO = trim(ucase(pIdContrato))
+			,servicos.ID_SOLICITANTE = trim(ucase(pIdSolicitante))
+			,servicos.ID_MATERIAL = trim(ucase(pIdMaterial))
+		WHERE servicos.ID = pID;
+		ELSE
+			DELETE FROM servicos WHERE ID = pID;
+	END IF;	
+END IF; 
+                 
+END //
+
+DELIMITER ;
+

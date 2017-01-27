@@ -1,0 +1,13 @@
+###
+###
+###
+### Category1 : 
+### Category2 : 
+### Category3 : 
+### Description : 
+###
+###
+###
+show tables status;
+SHOW PROCEDURE STATUS WHERE Db = DATABASE() AND Type = 'PROCEDURE';
+

@@ -1,0 +1,19 @@
+###
+###
+###
+### Category1 : 
+### Category2 : 
+### Category3 : 
+### Description : 
+###
+###
+###
+SELECT * FROM f4consult.ordensdeservicos;
+
+insert into f4consult.ordensdeservicos (Descricao01,Descricao02) values ("09:36","12:42");
+UPDATE f4consult.ordensdeservicos set Descricao03 = "13:36", Descricao04 = "15:48" where idOrdensDeServico = 2 ;
+
+SELECT right(TIMEDIFF(Descricao01,Descricao02),LENGTH(TIMEDIFF(Descricao01,Descricao02))-1) as tmpTotal1, right(TIMEDIFF(Descricao03,Descricao04),LENGTH(TIMEDIFF(Descricao03,Descricao04))-1) as tmpTotal2 FROM f4consult.ordensdeservicos where idOrdensDeServico = 2;
+
+SELECT SEC_TO_TIME( SUM( TIME_TO_SEC(right(TIMEDIFF(Descricao01,Descricao02),LENGTH(TIMEDIFF(Descricao01,Descricao02))-1)) ) ) AS total_horas FROM f4consult.ordensdeservicos where idOrdensDeServico = 2
+

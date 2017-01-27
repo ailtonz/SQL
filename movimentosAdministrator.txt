@@ -1,0 +1,32 @@
+###
+###
+###
+### Category1 : 
+### Category2 : 
+### Category3 : 
+### Description : 
+###
+###
+###
+SELECT DataDeEmissao,Transacao,CONTA,DataDeVencimento,ValorOriginal,DataDePagamento,ValorFinal,Observacao
+FROM movimentos
+WHERE conta = 'ENCARGOS CONTA CORRENTE';
+
+insert into movientos 
+	(DataDeEmissao,Transacao,CONTA,DataDeVencimento,ValorOriginal,DataDePagamento,ValorFinal,Observacao)
+	values
+	('05/03/2014','DEBITO','ADIANT.DEPOSITANTE','05/03/2014','1.79','05/03/2014','-1.79');
+	('05/03/2014','DEBITO','ADIANT.DEPOSITANTE','05/03/2014','0.94','05/03/2014','-0.94');	
+	('02/05/2014','DEBITO','ADIANT.DEPOSITANTE','02/05/2014','2.74','02/05/2014','-2.74');
+	('02/05/2014','DEBITO','ADIANT.DEPOSITANTE','02/05/2014','2.72','02/05/2014','-2.72');	
+
+update movimentos
+	set	
+		ValorOriginal = '44.70'
+		,ValorFinal = '-44.70'
+	where conta = 'ADIANT.DEPOSITANTE';
+	
+update movimentos
+	set	conta = 'TAR MAXICONTA MENS'
+	where conta = 'MAXICONTA';
+

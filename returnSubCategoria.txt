@@ -1,0 +1,22 @@
+###
+###
+###
+### Category1 : 
+### Category2 : 
+### Category3 : 
+### Description : 
+###
+###
+###
+CREATE FUNCTION returnSubCategoria(IN NM_SUBCATEGORIA VARCHAR(100)) RETURNS INT
+	LANGUAGE SQL
+	NOT DETERMINISTIC
+	CONTAINS SQL
+	SQL SECURITY DEFINER
+	COMMENT ''
+BEGIN
+SELECT admCategorias.codCategoria FROM admCategorias Where Categoria = NM_SUBCATEGORIA limit 1;
+return;
+
+END
+
