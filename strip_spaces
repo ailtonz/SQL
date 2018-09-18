@@ -1,0 +1,18 @@
+OBJETIVO: SPLIT por espaços duplos.
+
+--------------------------------------
+
+CREATE FUNCTION strip_spaces(@str varchar(8000))
+RETURNS varchar(8000) AS
+BEGIN 
+    WHILE CHARINDEX('  ', @str) > 0 
+        SET @str = REPLACE(@str, '  ', '|')
+
+    RETURN @str
+END
+
+--------------------------------------
+
+SELECT 
+*
+from STRING_SPLIT(dbo.strip_spaces('Seu Demonstrativo de Despesas  Débito Automático'), '|')
