@@ -1,0 +1,8 @@
+UPDATE f
+       set
+              f.EMAIL_ENVIAR = REPLACE(f.EMAIL_ENVIAR,CHAR(13) + Char(10) ,'')
+              ,f.MSG = REPLACE(f.MSG,CHAR(13) + Char(10) ,'')
+FROM
+       dbo.controle f
+WHERE
+       id = 1961847
